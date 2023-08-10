@@ -21,6 +21,6 @@ public class ScrollTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObjectRectTransform.localScale = new Vector3(targetRectTransform.anchoredPosition.x - 400.0f, 0, 0);
+        gameObjectRectTransform.localScale = new Vector3(targetRectTransform.anchoredPosition.x + 400.0f, 1, 0);
     }
 }

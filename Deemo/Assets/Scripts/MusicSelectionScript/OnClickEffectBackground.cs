@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class OnClickEffectBackground : MonoBehaviour
 {
     // 세팅 창이 활성화 되게 하기 위한 변수
-    public GameObject settingBackground;
+    public GameObject settingUi;
 
     // 노래 제목이 호출되는 위치
     public GameObject titleSave;
@@ -42,10 +42,13 @@ public class OnClickEffectBackground : MonoBehaviour
     // 버튼 클릭을 확인
     private bool isPoint = false;
 
+    // 처음 SettingUi 호출 체크
+    private bool isCheck = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        settingBackground.SetActive(false);
+        settingUi.SetActive(false);
 
         //Instantiate(titleList[0], centerPos + new Vector2(radius* 1.5f * Mathf.Cos(0.0f * Mathf.Deg2Rad), radius * Mathf.Sin(0.0f * Mathf.Deg2Rad)), Quaternion.identity, titleSave.transform);
         //Instantiate(titleList[1], centerPos + new Vector2(radius * 1.5f * Mathf.Cos(-12.0f * Mathf.Deg2Rad), radius * Mathf.Sin(-12.0f * Mathf.Deg2Rad)), Quaternion.identity, titleSave.transform);
@@ -105,9 +108,30 @@ public class OnClickEffectBackground : MonoBehaviour
     {
         if (isPoint == true)
         {
-            settingBackground.SetActive(true);
+            if (isCheck == false)
+            {
+                settingUi.SetActive(true);
+                settingUi.SetActive(false);
+                settingUi.SetActive(true);
+
+                isCheck = true;
+            }
+            else
+            {
+                settingUi.SetActive(true);
+            }
         }
 
         isPressed = false;
     }
+
+    //private IEnumerator Frame()
+    //{
+    //    settingUi.SetActive(true);
+
+    //    yield return null;
+
+    //    settingUi.SetActive(false);
+    //    settingUi.SetActive(true);
+    //}
 }

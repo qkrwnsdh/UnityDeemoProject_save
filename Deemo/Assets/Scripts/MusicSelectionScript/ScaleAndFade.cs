@@ -15,7 +15,7 @@ public class ScaleAndFade : MonoBehaviour
     private float duration = 2.0f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }

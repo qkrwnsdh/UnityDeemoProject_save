@@ -5,7 +5,7 @@ using UnityEngine;
 public class OpacityObject : MonoBehaviour
 {
     // 세팅창이 모두 꺼졌을때 코루틴을 멈추게 하기 위한 변수
-    public OnClickSettingBackground onClickSettingBackground;
+    public OnClickSettingUi OnClickSettingUi;
 
     // 컴포넌트 canvasGroup을 저장하기 위한 변수
     private CanvasGroup canvasGroup;
@@ -30,12 +30,12 @@ public class OpacityObject : MonoBehaviour
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+
+        isEnable = OnClickSettingUi.isEnable;
     }
 
     private void OnEnable()
     {
-        isEnable = onClickSettingBackground.isEnable;
-
         // 시간값 초기화
         timeElapsed = 0.0f;
 
@@ -80,25 +80,5 @@ public class OpacityObject : MonoBehaviour
                 }
             }
         }
-    }
-
-    private IEnumerator StartFade()
-    {
-        float timeElapsed = 0.0f;
-
-        while (timeElapsed < duration)
-        {
-            // 시간 경과에 따라 알파값 보간
-            timeElapsed += Time.deltaTime;
-
-            // Lerp 값을 0 ~ 1 사이로 변환
-            float time = Mathf.Clamp01(timeElapsed / duration);
-
-            // 보간된 값을 사용해서 알파값을 변경
-            canvasGroup.alpha = Mathf.Lerp(0.0f, 1.0f, time);
-
-            yield return null;
-        }
-
     }
 }
