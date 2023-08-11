@@ -1,32 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class RotationBeam : MonoBehaviour
 {
-    // 속도값을 가져오기 위한 다른 스크립트
-    private OnClickEffectBackground onClickEffectBackground;
+    public RectTransform scrollContent;
 
     // 오브젝트 RectTransform 를 불러오기 위한 변수
     private RectTransform rectTransform;
 
-    // 드래그 속도
-    public float velocity;
+    private float radius = 300.0f;
 
+    private float speed;
+    
     // Start is called before the first frame update
     void Start()
     {
-        onClickEffectBackground = GameObject.Find("Background").GetComponent<OnClickEffectBackground>();
         rectTransform = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        velocity = onClickEffectBackground.currentVelocity * 0.05f;
+        speed = (scrollContent.anchoredPosition.y - scrollContent.childCount * 360.0f) / 720.0f * 15.0f;
 
-        rectTransform.localEulerAngles = new Vector3(0, 0, velocity * Mathf.Rad2Deg/32);
-
-        
+        rectTransform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, radius * (15.0f - speed)* Mathf.Deg2Rad));
     }
 }

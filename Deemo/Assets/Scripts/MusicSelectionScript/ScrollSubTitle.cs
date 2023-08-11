@@ -1,14 +1,20 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScrollContentImg : MonoBehaviour
+public class ScrollSubTitle : MonoBehaviour
 {
+    public RectTransform scrollContent;
+
     private RectTransform rectTransform;
 
     private RectTransform[] rectTransformChild;
+
+    private float centerPos = -200.0f;
+
+    private float radius = 300.0f;
+
+    public float speed;
 
     // Start is called before the first frame update
     void Start()
@@ -20,15 +26,19 @@ public class ScrollContentImg : MonoBehaviour
         {
             rectTransformChild[i] = rectTransform.GetChild(i) as RectTransform;
         }
-
-        Vertical();
     }
 
-    private void Vertical()
+    // Update is called once per frame
+    void Update()
     {
+        speed = (scrollContent.anchoredPosition.y - rectTransformChild.Length * 360.0f) / 720.0f * 15.0f;
+
         for (int i = 0; i < rectTransformChild.Length; i++)
         {
-            rectTransformChild[i].anchoredPosition = new Vector2(128.0f, i * -512.0f);
+            rectTransformChild[i].anchoredPosition =
+                new Vector2
+                (centerPos + (radius * Mathf.Cos((i * 15.0f + speed) * Mathf.Deg2Rad)),
+                -(radius * 1.1f * Mathf.Sin((i * 15.0f + speed) * Mathf.Deg2Rad)));
         }
     }
 }

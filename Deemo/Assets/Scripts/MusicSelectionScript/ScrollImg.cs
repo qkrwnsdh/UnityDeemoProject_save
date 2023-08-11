@@ -1,14 +1,16 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ScrollContentImg : MonoBehaviour
+public class ScrollImg : MonoBehaviour
 {
+    public RectTransform ScrollContent;
+
     private RectTransform rectTransform;
 
     private RectTransform[] rectTransformChild;
+
+    private float speed;
 
     // Start is called before the first frame update
     void Start()
@@ -20,15 +22,16 @@ public class ScrollContentImg : MonoBehaviour
         {
             rectTransformChild[i] = rectTransform.GetChild(i) as RectTransform;
         }
-
-        Vertical();
     }
 
-    private void Vertical()
+    // Update is called once per frame
+    void Update()
     {
+        speed = (ScrollContent.anchoredPosition.y - rectTransformChild.Length * 360.0f) / 720.0f * 512.0f;
+
         for (int i = 0; i < rectTransformChild.Length; i++)
         {
-            rectTransformChild[i].anchoredPosition = new Vector2(128.0f, i * -512.0f);
+            rectTransformChild[i].anchoredPosition = new Vector2(128, -i * 512 - speed);
         }
     }
 }
