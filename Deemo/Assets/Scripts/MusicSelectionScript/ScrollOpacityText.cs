@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ScrollOpacityText : MonoBehaviour
@@ -24,7 +22,7 @@ public class ScrollOpacityText : MonoBehaviour
 
     private void Start()
     {
-        titleCount = GameManager.instance.mainTitle.Count;
+        titleCount = GameManager.instance.musicInformation["Title"].Count;
     }
 
     // Update is called once per frame
@@ -49,12 +47,14 @@ public class ScrollOpacityText : MonoBehaviour
 
     private IEnumerator ChangeText(int newIndex)
     {
-
         currentIndex = newIndex;
         mainTitleObj.GetComponent<CanvasGroup>().alpha = 0.0f;
         composerObj.GetComponent<CanvasGroup>().alpha = 0.0f;
-        mainTitle.text = GameManager.instance.mainTitle[currentIndex];
-        composer.text = GameManager.instance.composer[currentIndex];
+
+        mainTitle.text = GameManager.instance.musicInformation["Title"][titleCount - currentIndex - 1];
+        composer.text = GameManager.instance.musicInformation["Composer"][titleCount - currentIndex - 1];
+
+        GameManager.instance.Title(mainTitle.text);
 
         yield return null;
 

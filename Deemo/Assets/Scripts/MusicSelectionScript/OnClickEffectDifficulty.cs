@@ -92,6 +92,10 @@ public class OnClickEffectDifficulty : MonoBehaviour
         {
             targetDifficulty.transform.localScale = pressedScale;
         }
+
+        if (currentDifficulty == newDifficultyEasy) { GameManager.instance.Difficulty(0); }
+        else if (currentDifficulty == newDifficultyNormal) { GameManager.instance.Difficulty(1); }
+        else if (currentDifficulty == newDifficultyHard) { GameManager.instance.Difficulty(2); }
     }
 
     private void OnMouseDown()

@@ -1,20 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    
+    public GameObject barPrefab;
+    public GameObject spritePrefab;
+    public GameObject textPrefab;
+
+    public GameObject content;
+    
+    public Transform scrollBar;
+    public Transform textImgSub;
+    public Transform textTitleSub;
+
+    public AudioSource audioSource;
+
+    public string title;
+    public string difficulty;
+    public float score;
 
     public float bgm;
     public float speed;
     public float key;
 
-    public List<string> mainTitle = new List<string>();
-    public List<string> composer = new List<string>();
+
+
+    private Sprite[] spriteResources;
+
+    public string path = "Scenes/MusicSelectionScene/MusicList/";
+    public Dictionary<string, List<string>> musicInformation = new Dictionary<string, List<string>>();
 
     public bool coroutineCheck = false;
 
@@ -29,43 +50,76 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("씬에 두 개 이상의 게임 매니저가 존재합니다!");
             Destroy(gameObject);
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        mainTitle.Add("3piece-JazzParty!");
-        mainTitle.Add("no Man's Land");
-        mainTitle.Add("Sanctity");
-        mainTitle.Add("imp");
-        mainTitle.Add("Yawning Lion");
-        mainTitle.Add("Leviathan");
-        mainTitle.Add("OBLIVION");
-        mainTitle.Add("Heart of Witch");
-        mainTitle.Add("Ever After Story");
-        mainTitle.Add("Queen on Ice");
+        musicInformation = CSVReader.instance.ReadCSVFile("MusicList");
 
-        composer.Add("Mihile");
-        composer.Add("Sherwin");
-        composer.Add("Rabpit");
-        composer.Add("sakuzyo");
-        composer.Add("V.K");
-        composer.Add("NeLiME");
-        composer.Add("ESTi (Piano: Ayatsugu_Otowa)");
-        composer.Add("Rex (Piano: Ayatsugu_Otowa)");
-        composer.Add("Capchii");
-        composer.Add("Ayatsugu_Otowa");
+        for (int i = 0; i < musicInformation["Title"].Count; i++)
+        {
+            Instantiate(barPrefab, scrollBar);
+        }
 
+        content.GetComponent<RectTransform>().anchoredPosition =
+            new Vector2(content.GetComponent<RectTransform>().anchoredPosition.x,
+            musicInformation["Title"].Count * 720.0f / 2.0f); 
+
+        spriteResources = Resources.LoadAll<Sprite>(path + "Sprite");
+
+        for (int j = 0; j < musicInformation["Title"].Count; j++)
+        {
+            string targetSpriteName = musicInformation["Sprite"][j];
+
+            for (int i = 0; i < spriteResources.Length; i++)
+            {
+                if (targetSpriteName == spriteResources[i].name + ".png")
+                {
+                    GameObject newImg = Instantiate(spritePrefab, textImgSub);
+                    newImg.GetComponent<Image>().sprite = spriteResources[i];
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < musicInformation["Title"].Count; i++)
+        {
+            GameObject newText = Instantiate(textPrefab, textTitleSub);
+            newText.transform.GetChild(0).gameObject.transform.GetComponent<TMP_Text>().text = musicInformation["Title"][i];
+        }
 
         bgm = 5.0f;
         speed = 5.0f;
         key = 5.0f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Title(string title_)
     {
+        title = title_;
+    }
 
+    public void Difficulty(int difficulty_)
+    {
+        switch (difficulty_)
+        {
+            case 0:
+
+                difficulty = "Easy";
+
+                break;
+            case 1:
+
+                difficulty = "Normal";
+
+                break;
+            case 2:
+
+                difficulty = "Hard";
+
+                break;
+        }
+    }
+
+    public void Score(float score_)
+    {
+        score = score_;
     }
 
     public void Bgm(float bgm_)

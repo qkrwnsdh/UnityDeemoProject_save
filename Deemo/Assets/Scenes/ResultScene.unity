@@ -2630,7 +2630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99.99 %
+  m_text: 99.00 %
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9be63e2facb8a9f4486b4330135fa58e, type: 2}
   m_sharedMaterial: {fileID: -1915517213345448124, guid: 9be63e2facb8a9f4486b4330135fa58e, type: 2}
@@ -2720,7 +2720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 2
-  score: 99
+  score: 100
   isFloat: 1
 --- !u!1 &1999396737
 GameObject:
